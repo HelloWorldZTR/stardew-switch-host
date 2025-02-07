@@ -1,6 +1,6 @@
 # 星露谷联机存档服主转换
 
-🌍 [English](README.en.md) | 🇨🇳 [中文](README.zh.md) 
+🌍 [English](readme.en.md) | 🇨🇳 [中文](readme.zh.md) 
 
 ## 使用方法
 

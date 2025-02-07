@@ -1,6 +1,6 @@
 # Stardew Valley Multiplayer Save Host Swap
 
-🌍 [English](README.en.md) | 🇨🇳 [中文](README.zh.md) 
+🌍 [English](readme.en.md) | 🇨🇳 [中文](readme.zh.md) 
 
 ## Usage
 
