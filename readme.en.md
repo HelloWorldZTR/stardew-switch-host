@@ -8,6 +8,26 @@
 python main.py [path_to_your_save]
 ```
 
+```
+> python .\main.py .\farm_397798933
+Stardew Valley Save File Host Swapper
+
+---------Player List----------
+
+Current Host User:
+AAA @ FarmHouse (-445)
+
+Other Users:
+1. BBB @ FarmHousea490 (-816)
+2. Host @ FarmHouse5e46 (7112)
+
+Which player should be the host user?
+Enter the index of the player: 2
+```
+
+Enter the corresponding number of the host user (e.g. 2)
+The save file should be automatically updated, with the original file backed up to xxx.bak 
+
 Save file location:
 ```
 # Windows system

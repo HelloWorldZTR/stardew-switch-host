@@ -8,6 +8,25 @@
 python main.py [path_to_your_save]
 ```
 
+```
+> python .\main.py .\farm_397798933
+Stardew Valley Save File Host Swapper
+
+---------Player List----------
+
+Current Host User:
+好名字 @ FarmHouse (-445)
+
+Other Users:
+1. 大萝卜 @ FarmHousea490 (-816)
+2. 服主 @ FarmHouse5e46 (7112)
+
+Which player should be the host user?
+Enter the index of the player: 2
+```
+
+输入新服主对应的序号。存档内容应更新，原始存档被保存在.bak后缀文件里。
+
 存档的位置
 ```
 # Windows系统
