@@ -3,6 +3,7 @@ import os
 
 import xml.etree.ElementTree as ET
 import copy
+from xml.dom import minidom
 
 def format_xml(input_file, info_file='SaveGameInfo'):
     # Parse the XML file
@@ -47,16 +48,17 @@ def format_xml(input_file, info_file='SaveGameInfo'):
     print(f"Changing host user from {player['name']} to {farmhands[choice - 1]['name']}.")
 
     # Swap the host user and the selected farmhand user
-    root.remove(player_element)
     new_player_element = copy.deepcopy(farmhands_element[choice - 1])
+    new_farmer_element = copy.deepcopy(player_element)
+
     new_player_element.tag = 'player'
     new_player_element.find('homeLocation').text = player['homeLocation']
+    root.remove(player_element)
     root.append(new_player_element)
 
-    farmhands_element.remove(farmhands_element[choice - 1])
-    new_farmer_element = copy.deepcopy(player_element)
     new_farmer_element.tag = 'Farmer'
     new_farmer_element.find('homeLocation').text = farmhands[choice - 1]['homeLocation']
+    farmhands_element.remove(farmhands_element[choice - 1])
     farmhands_element.append(new_farmer_element)
 
     # Swap the owner of the buildings
@@ -74,6 +76,10 @@ def format_xml(input_file, info_file='SaveGameInfo'):
                         farmhand_reference.text = farmhands[choice - 1]['uniqueMultiplayerID']
                     elif farmhand_reference.text == farmhands[choice - 1]['uniqueMultiplayerID']:
                         farmhand_reference.text = player['uniqueMultiplayerID']
+
+    # Fix a missing attribute in the save file
+    # It kept throwing an error when I tried to load the save file
+    root.set('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema')
     
 
     # Write the modified content to the input file
@@ -94,9 +100,11 @@ def format_xml(input_file, info_file='SaveGameInfo'):
     except FileNotFoundError:
         pass 
 
-    rough_string = ET.tostring(root, 'unicode')
+    rough_string = ET.tostring(root, 'utf-8')
+    parsed = minidom.parseString(rough_string)
+    parsed = parsed.toprettyxml(indent="\t", encoding="utf-8").decode('utf-8')
     with open(input_file, "w", encoding="utf-8") as f:
-        f.write(rough_string)
+        f.write(parsed)
 
     
 
