@@ -48,8 +48,8 @@ def format_xml(input_file, info_file='SaveGameInfo'):
     print(f"Changing host user from {player['name']} to {farmhands[choice - 1]['name']}.")
 
     # Swap the host user and the selected farmhand user
-    new_player_element = copy.deepcopy(farmhands_element[choice - 1])
-    new_farmer_element = copy.deepcopy(player_element)
+    new_player_element = copy.copy(farmhands_element[choice - 1])
+    new_farmer_element = copy.copy(player_element)
 
     new_player_element.tag = 'player'
     new_player_element.find('homeLocation').text = player['homeLocation']
@@ -82,29 +82,23 @@ def format_xml(input_file, info_file='SaveGameInfo'):
     root.set('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema')
     
 
-    # Write the modified content to the input file
+    # Backup the save files to .bak
     backup_save_file(input_file)
     backup_save_file(info_file)
 
     # Swap the save info
-    # Not Necessary
     try:
         root_info = ET.parse(info_file).getroot()
         root_info.clear()
         for child in new_player_element:
             root_info.append(child)
 
-        rough_string = ET.tostring(root_info, 'unicode')
-        with open(info_file, "w", encoding="utf-8") as f:
-            f.write(rough_string)
+        write_xml(root_info, info_file)
     except FileNotFoundError:
-        pass 
+        pass # Not Necessary
 
-    rough_string = ET.tostring(root, 'utf-8')
-    parsed = minidom.parseString(rough_string)
-    parsed = parsed.toprettyxml(indent="\t", encoding="utf-8").decode('utf-8')
-    with open(input_file, "w", encoding="utf-8") as f:
-        f.write(parsed)
+    # Write the modified content to the input file
+    write_xml(root, input_file)
 
     
 
@@ -113,6 +107,12 @@ def backup_save_file(file_path):
     import os
     if os.path.exists(file_path):
         shutil.copy(file_path, file_path + ".bak")
+
+def write_xml(root, file_name):
+    xml_string = ET.tostring(root, encoding='unicode')
+    with open(file_name, "w", encoding="utf-8") as f:
+        f.write(xml_string)
+
 
 if __name__ == "__main__":
     try:
